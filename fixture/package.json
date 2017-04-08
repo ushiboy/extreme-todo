@@ -1,0 +1,14 @@
+{
+  "name": "fixture",
+  "version": "0.1.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "babel-node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "babel-cli": "^6.24.1",
+    "express": "^4.15.2"
+  }
+}

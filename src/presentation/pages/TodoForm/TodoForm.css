@@ -1,0 +1,13 @@
+.TodoForm {
+    .text-title {
+        height: 200px;
+    }
+
+    .control {
+        margin-top: 16px;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+}
