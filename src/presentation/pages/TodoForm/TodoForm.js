@@ -4,10 +4,7 @@ import { browserHistory } from 'react-router';
 import TodoUsecase from '../../../usecase/TodoUsecase';
 
 type Props = {
-  usecase: TodoUsecase,
-  params: {
-    id: string
-  }
+  usecase: TodoUsecase
 };
 
 type State = {
@@ -24,7 +21,6 @@ export default class TodoForm extends React.Component {
   handleDoneChange: (e: any) => void
   handleRemoveClick: (e: any) => void
   handleCancelClick: (e: any) => void
-  handleCurrentTodoChange: () => void
   handleCurrentTodoSave: () => void
   handleCurrentTodoRemove: () => void
 
@@ -33,34 +29,23 @@ export default class TodoForm extends React.Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDoneChange = this.handleDoneChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCurrentTodoChange = this.handleCurrentTodoChange.bind(this);
     this.handleCurrentTodoSave = this.handleCurrentTodoSave.bind(this);
     this.handleCurrentTodoRemove = this.handleCurrentTodoRemove.bind(this);
     this.handleRemoveClick = this.handleRemoveClick.bind(this);
     this.handleCancelClick = this.handleCancelClick.bind(this);
 
     const { usecase } = props;
+    const { title, done } = usecase.currentTodo;
     this.state = {
-      title: '',
-      done: false
+      title,
+      done
     };
-    usecase.on('currentTodo/change', this.handleCurrentTodoChange);
     usecase.on('currentTodo/save', this.handleCurrentTodoSave);
     usecase.on('currentTodo/remove', this.handleCurrentTodoRemove);
   }
 
-  componentDidMount() {
-    const { id } = this.props.params;
-    if (id == null) {
-      this.props.usecase.createNewTodoAndSetItToCurrent();
-    } else {
-      this.props.usecase.loadCurrentTodo(Number(id));
-    }
-  }
-
   componentWillUnmount() {
     const { usecase } = this.props;
-    usecase.removeListener('currentTodo/change', this.handleCurrentTodoChange);
     usecase.removeListener('currentTodo/save', this.handleCurrentTodoSave);
     usecase.removeListener('currentTodo/remove', this.handleCurrentTodoRemove);
   }
@@ -91,14 +76,6 @@ export default class TodoForm extends React.Component {
         </div>
       </div>
     );
-  }
-
-  handleCurrentTodoChange() {
-    const { currentTodo } = this.props.usecase;
-    if (currentTodo) {
-      const { title, done } = currentTodo;
-      this.setState({ title, done });
-    }
   }
 
   handleCurrentTodoSave() {

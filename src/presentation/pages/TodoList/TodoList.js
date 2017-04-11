@@ -19,34 +19,12 @@ export default class TodoList extends React.Component {
 
   state: State
 
-  handleTodosChange: () => void
-
   constructor(props: Props) {
     super(props);
-    this.handleTodosChange = this.handleTodosChange.bind(this);
-
     const { usecase } = props;
     this.state = {
       todos: usecase.todos.items
     };
-
-    usecase.on('todos/change', this.handleTodosChange);
-  }
-
-  componentDidMount() {
-    this.props.usecase.loadTodos();
-  }
-
-  componentWillUnmount() {
-    const { usecase } = this.props;
-    usecase.removeListener('todos/change', this.handleTodosChange);
-  }
-
-  handleTodosChange() {
-    const { usecase } = this.props;
-    this.setState({
-      todos: usecase.todos.items
-    });
   }
 
   render() {

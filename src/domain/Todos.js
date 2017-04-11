@@ -1,6 +1,6 @@
 /* @flow */
 import Todo from './Todo';
-import type { TodoPersistence } from './Todo';
+import type { TodoPersistence, RawTodo } from './Todo';
 
 export default class Todos {
 
@@ -8,9 +8,14 @@ export default class Todos {
 
   items: Todo[]
 
-  constructor(persistence: TodoPersistence) {
+  constructor(persistence: TodoPersistence, items: ?RawTodo[]) {
     this.items = [];
     this._persistence = persistence
+    if (items) {
+      this.items = items.map(t => {
+        return new Todo(this._persistence, t);
+      });
+    }
   }
 
   load(): Promise<void> {
@@ -20,6 +25,12 @@ export default class Todos {
           return new Todo(this._persistence, t);
         });
       });
+  }
+
+  toJSON() {
+    return {
+      items: this.items
+    };
   }
 
 }
