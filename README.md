@@ -4,19 +4,19 @@
 
 ## Launch
 
-API Server launch.
-
-```
-$ cd ./fixture/
-$ yarn install
-$ ./server.js
-```
-
 Webpack Dev Server launch.
 
 ```
 $ yarn install
 $ npm start
+```
+
+API Server launch.
+
+```
+$ cd ./fixture
+$ yarn install
+$ ./server.js
 ```
 
 SSR Server launch.
