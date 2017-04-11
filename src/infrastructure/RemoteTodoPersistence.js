@@ -1,11 +1,18 @@
 /* @flow */
+import 'isomorphic-fetch';
 import Todo from '../domain/Todo';
 import type { TodoPersistence, RawTodo } from '../domain/Todo';
 
 export default class RemoveTodoPersistence implements TodoPersistence {
 
+  _baseUrl: string
+
+  constructor(baseUrl:string = '') {
+    this._baseUrl = baseUrl;
+  }
+
   fetchAll(): Promise<RawTodo[]> {
-    return fetch('/api/todos')
+    return fetch(`${this._baseUrl}/api/todos`)
       .then(res => res.json())
       .then(json => {
         return json.todos;
@@ -13,7 +20,7 @@ export default class RemoveTodoPersistence implements TodoPersistence {
   }
 
   fetch(id: number): Promise<RawTodo> {
-    return fetch(`/api/todos/${id}`)
+    return fetch(`${this._baseUrl}/api/todos/${id}`)
       .then(res => {
         if (res.status === 200) {
           return res.json()
@@ -28,7 +35,7 @@ export default class RemoveTodoPersistence implements TodoPersistence {
 
   create(todo: Todo): Promise<RawTodo> {
     const { title, done } = todo;
-    return fetch(`/api/todos`, {
+    return fetch(`${this._baseUrl}/api/todos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -48,7 +55,7 @@ export default class RemoveTodoPersistence implements TodoPersistence {
   update(todo: Todo): Promise<RawTodo> {
     const { id, title, done } = todo;
     if (id != null) {
-      return fetch(`/api/todos/${id}`, {
+      return fetch(`${this._baseUrl}/api/todos/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -70,7 +77,7 @@ export default class RemoveTodoPersistence implements TodoPersistence {
   remove(todo: Todo): Promise<void> {
     const { id, title, done } = todo;
     if (id != null) {
-      return fetch(`/api/todos/${id}`, {
+      return fetch(`${this._baseUrl}/api/todos/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'

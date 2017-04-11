@@ -34,7 +34,7 @@ export default class TodoList extends React.Component {
   }
 
   componentDidMount() {
-    this.props.usecase.loadTodos();
+    //this.props.usecase.loadTodos();
   }
 
   componentWillUnmount() {

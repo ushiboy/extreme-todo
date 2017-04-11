@@ -55,6 +55,14 @@ export default class Todo {
     return this._persistence.remove(this);
   }
 
+  toJSON() {
+    return {
+      id: this._id,
+      title: this.title,
+      done: this.done
+    };
+  }
+
 }
 
 export interface TodoPersistence {

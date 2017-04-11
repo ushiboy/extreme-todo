@@ -40,9 +40,10 @@ export default class TodoForm extends React.Component {
     this.handleCancelClick = this.handleCancelClick.bind(this);
 
     const { usecase } = props;
+    const { title, done } = usecase.currentTodo || { title: '', done: false };
     this.state = {
-      title: '',
-      done: false
+      title,
+      done
     };
     usecase.on('currentTodo/change', this.handleCurrentTodoChange);
     usecase.on('currentTodo/save', this.handleCurrentTodoSave);
@@ -50,12 +51,12 @@ export default class TodoForm extends React.Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.params;
-    if (id == null) {
-      this.props.usecase.createNewTodoAndSetItToCurrent();
-    } else {
-      this.props.usecase.loadCurrentTodo(Number(id));
-    }
+    //const { id } = this.props.params;
+    //if (id == null) {
+    //  this.props.usecase.createNewTodoAndSetItToCurrent();
+    //} else {
+    //  this.props.usecase.loadCurrentTodo(Number(id));
+    //}
   }
 
   componentWillUnmount() {

@@ -38,6 +38,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:8181'
+      },
+      '/': {
+        target: 'http://localhost:8081'
       }
     },
     stats: {
