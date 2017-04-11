@@ -25,21 +25,22 @@ export default class TodoUsecase extends EventEmitter {
     this._persistence = persistence;
   }
 
-  loadTodos() {
-    this.todos.load().then(() => {
+  loadTodos(): Promise<void> {
+    return this.todos.load().then(() => {
       this.emit('todos/change');
     });
   }
 
-  createNewTodoAndSetItToCurrent() {
+  createNewTodoAndSetItToCurrent(): Promise<void> {
     this.currentTodo = new Todo(this._persistence);
     this.currentTodo.title = 'New Todo';
     this.emit('currentTodo/change');
+    return Promise.resolve();
   }
 
-  loadCurrentTodo(id: number) {
+  loadCurrentTodo(id: number): Promise<void> {
     this.currentTodo = new Todo(this._persistence);
-    this.currentTodo.load(id).then(() => {
+    return this.currentTodo.load(id).then(() => {
       this.emit('currentTodo/change');
     });
   }

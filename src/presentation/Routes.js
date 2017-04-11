@@ -10,23 +10,20 @@ export default function getRoutes(usecase: TodoUsecase) {
   return (
     <Route component={App}>
       <Route path="/" component={TodoList} onEnter={(nextState, replace, callback) => {
-        usecase.once('todos/change', () => {
+        usecase.loadTodos().then(() => {
           callback();
         });
-        usecase.loadTodos();
       }}/>
       <Route path="todos/new" component={TodoForm} onEnter={(nextState, replace, callback) => {
-        usecase.once('currentTodo/change', () => {
+        usecase.createNewTodoAndSetItToCurrent().then(() => {
           callback();
         });
-        usecase.createNewTodoAndSetItToCurrent();
       }} />
       <Route path="todos/:id/edit" component={TodoForm} onEnter={(nextState, replace, callback) => {
         const { id } = nextState.params;
-        usecase.once('currentTodo/change', () => {
+        usecase.loadCurrentTodo(Number(id)).then(() => {
           callback();
         });
-        usecase.loadCurrentTodo(Number(id));
       }} />
     </Route>
   );
